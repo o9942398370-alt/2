@@ -37,9 +37,13 @@ public final class ServerRepository {
         this.serversDir = new File(context.getFilesDir(), "servers");
         this.buildsDir = new File(context.getFilesDir(), "builds");
         this.packsDir = new File(context.getFilesDir(), "packs");
-        ensureDirectory(serversDir);
-        ensureDirectory(buildsDir);
-        ensureDirectory(packsDir);
+        try {
+            ensureDirectory(serversDir);
+            ensureDirectory(buildsDir);
+            ensureDirectory(packsDir);
+        } catch (IOException error) {
+            throw new IllegalStateException("Could not initialize server storage", error);
+        }
     }
 
     public File getServersDirectory() { return serversDir; }
